@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useAuth } from '@/context/AuthContext';
 import Button from '@/components/ui/Button';
 
@@ -27,15 +28,40 @@ export default function AdminCampaignsPage() {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status })
       });
+      toast.success(`Campaign ${status} successfully`);
       fetchCampaigns();
-    } catch (e) { console.error(e); }
+    } catch (err) {
+      toast.error('Failed to update status');
+    }
+  };
+
+  const handleSeedDatabase = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/seed`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.ok) {
+        toast.success('Database seeded perfectly with amazing dummy data!');
+        fetchCampaigns();
+      } else {
+        toast.error('Failed to seed database');
+      }
+    } catch (error) {
+      toast.error('Failed to seed database');
+    }
   };
 
   if (user?.role !== 'Admin') return <div className="p-8">Admin only.</div>;
 
   return (
     <div className="p-4 md:p-8 mt-8">
-      <h1 className="text-2xl font-bold mb-6">Manage Campaigns</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Manage Campaigns</h1>
+        <Button onClick={handleSeedDatabase} className="bg-green-600 hover:bg-green-700">
+          Seed Database (Auto-Fill)
+        </Button>
+      </div>
       <div className="bg-white rounded-lg shadow overflow-x-auto">
         <table className="min-w-full text-left">
           <thead className="bg-gray-50 border-b">

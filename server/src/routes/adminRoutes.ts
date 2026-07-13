@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { 
   getPendingCampaigns, updateCampaignStatus, 
   getWithdrawals, updateWithdrawalStatus, 
-  getUsers, updateUserRole, deleteUser 
+  getUsers, updateUserRole, deleteUser, seedDatabase
 } from '../controllers/adminController';
 import { protect, authorize } from '../middleware/authMiddleware';
 
@@ -20,5 +20,8 @@ router.put('/withdrawals/:id/status', updateWithdrawalStatus);
 router.get('/users', getUsers);
 router.put('/users/:id/role', updateUserRole);
 router.delete('/users/:id', deleteUser);
+
+// Database Seeding Route
+router.post('/seed', seedDatabase);
 
 export default router;
