@@ -34,7 +34,7 @@ const Navbar = () => {
               <Link href="/explore" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Explore Campaigns</Link>
             </li>
             <li>
-              <a href="https://github.com/GrandpaEJ/CrowdFund" target="_blank" rel="noreferrer" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Join as Developer</a>
+              <a href="https://github.com/with-ph-b13/CrowdFund" target="_blank" rel="noreferrer" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Join as Developer</a>
             </li>
           </ul>
         </div>
