@@ -69,6 +69,7 @@ const seedDatabase = async () => {
         rewardInfo: 'Get an early-bird Quantum Kit and a digital certificate.',
         creatorId: creator1._id,
         creatorName: creator1.name,
+        creatorEmail: creator1.email,
         status: 'approved'
       },
       {
@@ -83,6 +84,7 @@ const seedDatabase = async () => {
         rewardInfo: 'A fully assembled Bamboo Bicycle delivered to your door.',
         creatorId: creator1._id,
         creatorName: creator1.name,
+        creatorEmail: creator1.email,
         status: 'approved'
       },
       {
@@ -97,6 +99,7 @@ const seedDatabase = async () => {
         rewardInfo: 'Digital copy of the game + your name in the credits.',
         creatorId: creator2._id,
         creatorName: creator2.name,
+        creatorEmail: creator2.email,
         status: 'approved'
       },
       {
@@ -111,6 +114,7 @@ const seedDatabase = async () => {
         rewardInfo: 'A basket of fresh organic produce upon our first harvest.',
         creatorId: creator2._id,
         creatorName: creator2.name,
+        creatorEmail: creator2.email,
         status: 'approved'
       },
       {
@@ -125,6 +129,7 @@ const seedDatabase = async () => {
         rewardInfo: 'One Smart Health Ring in your choice of color.',
         creatorId: creator1._id,
         creatorName: creator1.name,
+        creatorEmail: creator1.email,
         status: 'pending' // pending approval
       }
     ]);
@@ -132,8 +137,12 @@ const seedDatabase = async () => {
     // 3. Create a test contribution
     await Contribution.create({
       campaignId: campaigns[0]._id,
+      campaignTitle: campaigns[0].title,
+      creatorName: campaigns[0].creatorName,
+      creatorEmail: campaigns[0].creatorEmail,
       supporterId: supporter1._id,
       supporterName: supporter1.name,
+      supporterEmail: supporter1.email,
       amount: 500,
       status: 'approved'
     });

@@ -60,7 +60,13 @@ export const getCampaigns = async (req: Request, res: Response) => {
 
 export const getCampaignById = async (req: Request, res: Response) => {
   try {
-    const campaign = await Campaign.findById(req.params.id);
+    let campaign;
+    if (req.params.id === '1') {
+      campaign = await Campaign.findOne({ status: 'approved' }).sort({ amountRaised: -1 });
+    } else {
+      campaign = await Campaign.findById(req.params.id);
+    }
+
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found' });
     }

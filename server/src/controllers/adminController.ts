@@ -114,6 +114,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
     // We need at least a creator to assign campaigns to. If none exists, create a dummy one.
     let creatorId = creatorUser?._id;
     let creatorName = creatorUser?.name || 'Demo Creator';
+    let creatorEmail = creatorUser?.email || 'demo_creator@test.com';
     
     if (!creatorId) {
       const passwordHash = await bcrypt.hash('password123', 10);
@@ -122,6 +123,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
       });
       creatorId = newCreator._id;
       creatorName = newCreator.name;
+      creatorEmail = newCreator.email;
     }
 
     const campaigns = await Campaign.insertMany([
@@ -137,6 +139,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
         rewardInfo: 'Get an early-bird Quantum Kit and a digital certificate.',
         creatorId: creatorId,
         creatorName: creatorName,
+        creatorEmail: creatorEmail,
         status: 'approved'
       },
       {
@@ -151,6 +154,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
         rewardInfo: 'A fully assembled Bamboo Bicycle delivered to your door.',
         creatorId: creatorId,
         creatorName: creatorName,
+        creatorEmail: creatorEmail,
         status: 'approved'
       },
       {
@@ -165,6 +169,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
         rewardInfo: 'Digital copy of the game + your name in the credits.',
         creatorId: creatorId,
         creatorName: creatorName,
+        creatorEmail: creatorEmail,
         status: 'approved'
       },
       {
@@ -179,6 +184,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
         rewardInfo: 'A basket of fresh organic produce upon our first harvest.',
         creatorId: creatorId,
         creatorName: creatorName,
+        creatorEmail: creatorEmail,
         status: 'approved'
       },
       {
@@ -193,6 +199,7 @@ export const seedDatabase = async (req: Request, res: Response) => {
         rewardInfo: 'One Smart Health Ring in your choice of color.',
         creatorId: creatorId,
         creatorName: creatorName,
+        creatorEmail: creatorEmail,
         status: 'pending' // pending approval
       }
     ]);
