@@ -34,7 +34,8 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, role, photoUrl }),
@@ -125,7 +126,8 @@ export default function RegisterPage() {
               onSuccess={async (credentialResponse) => {
                 setIsLoading(true);
                 try {
-                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google-login`, {
+                  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+                  const res = await fetch(`${API_URL}/api/auth/google-login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
