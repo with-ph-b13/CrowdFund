@@ -93,7 +93,7 @@ export default function RegisterPage() {
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-gray-700">Account Type</label>
               <select 
-                className="border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 rounded-md px-3 py-2 text-base text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={role}
                 onChange={(e) => setRole(e.target.value as any)}
               >

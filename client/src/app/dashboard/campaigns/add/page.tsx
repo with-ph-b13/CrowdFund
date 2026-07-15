@@ -88,7 +88,7 @@ export default function AddCampaignPage() {
         
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-gray-700">Category</label>
-          <select name="category" className="border rounded p-2" onChange={handleChange}>
+          <select name="category" className="border rounded p-2 text-gray-900 bg-white" onChange={handleChange}>
             <option value="Technology">Technology</option>
             <option value="Art">Art</option>
             <option value="Community">Community</option>

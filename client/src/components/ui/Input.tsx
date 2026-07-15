@@ -11,7 +11,7 @@ const Input: React.FC<InputProps> = ({ label, error, className = '', id, ...prop
       {label && <label htmlFor={id} className="text-sm font-medium text-gray-700">{label}</label>}
       <input
         id={id}
-        className={`border rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow ${
+        className={`border rounded-md px-3 py-2 text-base text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow ${
           error ? 'border-red-500' : 'border-gray-300'
         } ${className}`}
         {...props}
