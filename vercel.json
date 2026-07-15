@@ -16,6 +16,10 @@
       "destination": "/server/src/index"
     },
     {
+      "source": "/server/(.*)",
+      "destination": "/server/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/client/$1"
     }
