@@ -61,8 +61,28 @@ export const getCampaigns = async (req: Request, res: Response) => {
 export const getCampaignById = async (req: Request, res: Response) => {
   try {
     let campaign;
-    if (req.params.id === '1') {
+    const dummyIds = ['1', '2', '3', '4', '5', '6'];
+    
+    if (dummyIds.includes(req.params.id)) {
       campaign = await Campaign.findOne({ status: 'approved' }).sort({ amountRaised: -1 });
+      
+      // If database is completely empty, provide a robust mock for the dummy IDs to prevent 404s on the homepage
+      if (!campaign) {
+        return res.status(200).json({
+          _id: req.params.id,
+          title: 'Solar Powered Water Pump',
+          category: 'Technology',
+          story: 'Help us bring clean water to villages. This is a robust fallback campaign because your MongoDB database is currently empty. Please run the seed script or create a campaign to see real data!',
+          fundingGoal: 10000,
+          minimumContribution: 5,
+          amountRaised: 8500,
+          deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          imageUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500',
+          rewardInfo: 'Get a personalized thank you video from the villages you helped!',
+          creatorName: 'EcoTech',
+          creatorId: 'mock_creator_id'
+        });
+      }
     } else {
       campaign = await Campaign.findById(req.params.id);
     }
