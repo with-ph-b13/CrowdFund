@@ -132,6 +132,11 @@ export const googleLogin = async (req: Request, res: Response) => {
         role,
         credits: initialCredits,
       } as any);
+    } else {
+      // Sync Google profile details if they changed
+      if (name && user.name !== name) user.name = name;
+      if (photoUrl && user.photoUrl !== photoUrl) user.photoUrl = photoUrl;
+      await user.save();
     }
 
     const token = generateToken(user);
