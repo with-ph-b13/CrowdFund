@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: '/server/src/index.ts',
+        destination: '/server/src/index',
       },
     ];
   },
