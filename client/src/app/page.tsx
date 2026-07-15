@@ -178,8 +178,8 @@ export default function Home() {
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Never Miss a Great Project</h2>
             <p className="text-gray-600 mb-6">Subscribe to our newsletter to get weekly updates on the highest trending campaigns.</p>
-            <form className="flex gap-2 max-w-md mx-auto">
-              <input type="email" placeholder="Your email address" className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" required />
+            <form className="flex gap-2 max-w-md mx-auto" onSubmit={(e) => { e.preventDefault(); alert('Subscribed successfully!'); }}>
+              <input type="email" placeholder="Your email address" className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-gray-900 bg-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 outline-none" required />
               <button type="submit" className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors">Subscribe</button>
             </form>
           </div>
