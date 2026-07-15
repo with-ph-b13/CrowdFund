@@ -9,15 +9,5 @@
       "src": "client/package.json",
       "use": "@vercel/next"
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/server/src/index.ts"
-    },
-    {
-      "source": "/(?!api/|server/)(.*)",
-      "destination": "/client/$1"
-    }
   ]
 }
