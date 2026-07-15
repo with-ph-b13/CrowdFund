@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
+import Stripe from 'stripe';
 import User from '../models/User';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: '2025-01-27.acacia' as any, // Using latest stable apiVersion
+});
 
 export const createCheckoutSession = async (req: Request, res: Response) => {
   try {
@@ -10,26 +15,67 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid amount' });
     }
 
-    // MOCK STRIPE IMPLEMENTATION:
-    // In a real app, you would initialize stripe with STRIPE_SECRET_KEY, 
-    // create a stripe.checkout.sessions.create() call, and return the session.url.
-    // Since this is an assignment without active keys, we simulate a successful payment here directly.
-    
-    const creditsToadd = amountDollars * 20;
-    
-    const user = await User.findById(userId);
-    if (user) {
-      user.credits += creditsToadd;
-      await user.save();
-    }
+    const creditsToAdd = amountDollars * 20;
 
-    // Return a mock success URL that we'll redirect to in the frontend
-    res.status(200).json({ 
-      url: `/dashboard/credits/success?amount=${amountDollars}&credits=${creditsToadd}`,
-      message: 'Mock Stripe checkout successful. Credits added.'
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `Add ${creditsToAdd} Credits`,
+            },
+            unit_amount: amountDollars * 100, // in cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.NEXTAUTH_URL}/dashboard/credits/success?amount=${amountDollars}&credits=${creditsToAdd}`,
+      cancel_url: `${process.env.NEXTAUTH_URL}/dashboard/credits/purchase`,
+      client_reference_id: userId,
+      metadata: {
+        userId: userId,
+        creditsToAdd: creditsToAdd.toString(),
+      }
     });
+
+    res.status(200).json({ url: session.url });
 
   } catch (error) {
     res.status(500).json({ message: 'Error processing payment', error });
   }
+};
+
+export const handleWebhook = async (req: Request, res: Response) => {
+  const sig = req.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    // req.body must be raw buffer here
+    event = stripe.webhooks.constructEvent(req.body, sig as string, process.env.STRIPE_WEBHOOK_SECRET as string);
+  } catch (err: any) {
+    console.error(`Webhook Error: ${err.message}`);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const userId = session.client_reference_id;
+    const creditsToAdd = parseInt(session.metadata?.creditsToAdd || '0', 10);
+
+    if (userId && creditsToAdd > 0) {
+      const user = await User.findById(userId);
+      if (user) {
+        user.credits += creditsToAdd;
+        await user.save();
+        console.log(`Successfully added ${creditsToAdd} credits to user ${userId}`);
+      }
+    }
+  }
+
+  res.json({ received: true });
 };
