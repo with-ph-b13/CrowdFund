@@ -8,16 +8,31 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CampaignCard from '@/components/common/CampaignCard';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const dummyTopCampaigns = [
-    { id: '1', title: 'Solar Powered Water Pump', shortDescription: 'Help us bring clean water to villages.', imageUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500', goal: 10000, raised: 8500, creatorName: 'EcoTech' },
-    { id: '2', title: 'Community Art Center', shortDescription: 'A safe space for local artists to create.', imageUrl: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500', goal: 5000, raised: 4200, creatorName: 'Sarah Jenkins' },
-    { id: '3', title: 'NextGen Smart Backpack', shortDescription: 'A backpack with solar charging.', imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500', goal: 20000, raised: 18000, creatorName: 'Urban Gear' },
-    { id: '4', title: 'Save The Ocean Docs', shortDescription: 'A documentary series on marine life.', imageUrl: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=500', goal: 15000, raised: 15000, creatorName: 'Blue Earth' },
-    { id: '5', title: 'Local Animal Shelter', shortDescription: 'Building a new wing for stray dogs.', imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500', goal: 8000, raised: 7100, creatorName: 'Paws Rescue' },
-    { id: '6', title: 'Urban Farm Initiative', shortDescription: 'Bringing fresh produce to the city.', imageUrl: 'https://images.unsplash.com/photo-1530836369250-ef71a3f5e902?w=500', goal: 12000, raised: 10500, creatorName: 'Green City' }
-  ];
+  const [dummyTopCampaigns, setTopCampaigns] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/campaigns/top`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          // Map backend response fields to what CampaignCard expects
+          const mapped = data.map(c => ({
+            id: c._id,
+            title: c.title,
+            shortDescription: c.story.substring(0, 50) + '...',
+            imageUrl: c.imageUrl,
+            goal: c.fundingGoal,
+            raised: c.amountRaised,
+            creatorName: c.creatorName
+          }));
+          setTopCampaigns(mapped);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
