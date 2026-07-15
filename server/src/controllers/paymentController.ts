@@ -17,6 +17,10 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 
     const creditsToAdd = amountDollars * 20;
 
+    // Use VERCEL_URL provided by Vercel automatically, fallback to NEXTAUTH_URL or localhost
+    const baseUrl = process.env.NEXTAUTH_URL 
+      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -32,8 +36,8 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXTAUTH_URL}/dashboard/credits/success?amount=${amountDollars}&credits=${creditsToAdd}`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/dashboard/credits/purchase`,
+      success_url: `${baseUrl}/dashboard/credits/success?amount=${amountDollars}&credits=${creditsToAdd}`,
+      cancel_url: `${baseUrl}/dashboard/credits/purchase`,
       client_reference_id: userId,
       metadata: {
         userId: userId,
