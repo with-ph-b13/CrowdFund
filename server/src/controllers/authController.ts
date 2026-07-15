@@ -92,9 +92,29 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+import { OAuth2Client } from 'google-auth-library';
+
+const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
+
 export const googleLogin = async (req: Request, res: Response) => {
   try {
-    const { email, name, photoUrl, role = 'Supporter' } = req.body;
+    const { token: idToken, role = 'Supporter' } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({ message: 'No Google token provided' });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    if (!payload || !payload.email) {
+      return res.status(400).json({ message: 'Invalid Google token payload' });
+    }
+
+    const { email, name, picture: photoUrl } = payload;
 
     let user = await User.findOne({ email });
 
@@ -105,13 +125,12 @@ export const googleLogin = async (req: Request, res: Response) => {
       if (role === 'Creator') initialCredits = 20;
 
       user = await User.create({
-        name,
+        name: name || 'Google User',
         email,
         photoUrl,
         role,
         credits: initialCredits,
-        // No password for Google Sign-in users
-      });
+      } as any);
     }
 
     const token = generateToken(user);
