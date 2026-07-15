@@ -137,9 +137,11 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 italic mb-4">"Without this platform, my community garden project would have just been a dream. The support was overwhelming."</p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                </div>
                 <div>
-                  <p className="font-bold text-sm">Jessica W.</p>
+                  <p className="font-bold text-sm text-gray-900">Jessica W.</p>
                   <p className="text-xs text-gray-500">Creator</p>
                 </div>
               </div>
@@ -147,9 +149,11 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 italic mb-4">"I love backing innovative tech projects. The process is completely seamless and secure."</p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                </div>
                 <div>
-                  <p className="font-bold text-sm">David M.</p>
+                  <p className="font-bold text-sm text-gray-900">David M.</p>
                   <p className="text-xs text-gray-500">Supporter</p>
                 </div>
               </div>
@@ -157,9 +161,11 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 italic mb-4">"A fantastic way to validate a product before going into full manufacturing."</p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                </div>
                 <div>
-                  <p className="font-bold text-sm">Elena R.</p>
+                  <p className="font-bold text-sm text-gray-900">Elena R.</p>
                   <p className="text-xs text-gray-500">Creator</p>
                 </div>
               </div>
