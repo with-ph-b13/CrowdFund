@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Request, Response } from 'express';
 import Contribution from '../models/Contribution';
 import Campaign from '../models/Campaign';

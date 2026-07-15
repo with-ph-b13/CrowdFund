@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import GlobalNotifications from "@/components/common/GlobalNotifications";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const metadata: Metadata = {
-  title: "CrowdFund | Next-Gen Funding Platform",
-  description: "Support creative projects and innovative ideas around the world.",
+  title: "CrowdFund - Empower Ideas That Matter",
+  description: "A platform for creators to get funding and bring their dreams to life.",
 };
-
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function RootLayout({
   children,
@@ -27,11 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en">
+      <body className="min-h-full flex flex-col antialiased">
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
           <AuthProvider>
             <GlobalNotifications />
