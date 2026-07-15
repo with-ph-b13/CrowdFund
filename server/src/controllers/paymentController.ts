@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import User from '../models/User';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy_fallback_key', {
   apiVersion: '2025-01-27.acacia' as any, // Using latest stable apiVersion
 });
 
