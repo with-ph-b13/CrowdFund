@@ -112,6 +112,7 @@ export const googleLogin = async (req: Request, res: Response) => {
     
     const payload = ticket.getPayload();
     if (!payload || !payload.email) {
+      console.error('Google token payload missing email or invalid:', payload);
       return res.status(400).json({ message: 'Invalid Google token payload' });
     }
 
@@ -153,9 +154,9 @@ export const googleLogin = async (req: Request, res: Response) => {
         photoUrl: user.photoUrl,
       },
     });
-  } catch (error) {
-    console.error('Google Login Error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+  } catch (error: any) {
+    console.error('Google Login Error:', error?.message || error);
+    res.status(500).json({ message: 'Internal server error: ' + (error?.message || 'Unknown') });
   }
 };
 

@@ -106,8 +106,9 @@ export default function LoginPage() {
                   } else {
                     setError(data.message || 'Google login failed');
                   }
-                } catch (err) {
-                  setError('Google login failed');
+                } catch (err: any) {
+                  console.error(err);
+                  setError('Google login error: ' + (err.message || 'Unknown network error'));
                 } finally {
                   setIsLoading(false);
                 }

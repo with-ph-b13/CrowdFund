@@ -140,8 +140,9 @@ export default function RegisterPage() {
                   } else {
                     setError(data.message || 'Google signup failed');
                   }
-                } catch (err) {
-                  setError('Google signup failed');
+                } catch (err: any) {
+                  console.error(err);
+                  setError('Google signup error: ' + (err.message || 'Unknown network error'));
                 } finally {
                   setIsLoading(false);
                 }
